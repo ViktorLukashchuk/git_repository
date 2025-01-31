@@ -1,14 +1,13 @@
-const boo1 = true;
-const bool2 = false;
+const num1 = 1;
 
-switch (boo1 || bool2) {
-    case true:
-        console.log('TRUE');
+switch (num1) {
+    case 1:
+        console.log('Match');
         break;
-    case false:
-        console.log('FALSE');
+    case 5:
+        console.log('NOT match');
         break;
     default:
-        console.log('BAD REQUEST');
+        console.log('default');
         break;
 }
