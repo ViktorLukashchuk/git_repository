@@ -8,5 +8,10 @@ const nestObj = {
     }
 };
 
-//console.log(nestObj);
+console.log(nestObj);
+
 console.log(nestObj.func.funNested());
+
+console.log(Object.keys(nestObj));
+
+console.log(Object.keys(nestObj.func));
