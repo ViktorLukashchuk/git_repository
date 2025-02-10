@@ -1,28 +1,38 @@
 async function fetchData() {
     try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos/51155621626');
-        let data;
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos/55665165655');
+        let json;
         if (!response.ok) {
             try {
-                const backupResponse = await fetch('https://jsonplaceholder.typicod5e.com/todos/git');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                const backupResponse = await fetch('https://jsonplaceholder.typicode.com/todos/2');
+                if (!backupResponse.ok) {
+                    throw new Error(`HTTP error! Status 156151515: ${backupResponse.status}`);
                 }
-                data = await backupResponse.json();
-                dataOutput(data);
+                json = await backupResponse.json();
+                return json;
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         } else {
-            data = await response.json();
-            dataOutput(data);
+            json = await response.json();
+            return json;
         }
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 }
-function dataOutput(data) {
+async function dataOutput() {
+    const data = await fetchData();
     console.log('Data Fetched:', data);
 }
 
-fetchData();
+// 2 options of calling
+
+dataOutput(); //1 - This will execute dataOutput(), but since it’s asynchronous, the calling code won’t wait for it to finish.
+
+async function main() {
+    await dataOutput();
+    console.log('Data output completed.');
+}
+
+main(); // 2 - main() is an async function that waits for dataOutput() before moving forward.

@@ -4,14 +4,15 @@ async function fetchData() {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const data = await response.json();
-        dataOutput(data);
+        const json = await response.json();
+        return json;
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 }
-function dataOutput(data) {
+async function dataOutput() {
+    const data = await fetchData();
     console.log('Data Fetched:', data);
 }
 
-fetchData();
+dataOutput();
