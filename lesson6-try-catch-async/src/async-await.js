@@ -1,6 +1,6 @@
 async function fetchData() {
     try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos/2');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -10,9 +10,12 @@ async function fetchData() {
         console.error('Error fetching data:', error);
     }
 }
+
 async function dataOutput() {
     const data = await fetchData();
     console.log('Data Fetched:', data);
 }
 
-dataOutput();
+(async () => {
+    await dataOutput();
+})();
