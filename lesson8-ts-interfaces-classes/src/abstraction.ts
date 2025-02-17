@@ -36,13 +36,3 @@ export class IsoscelesTriangle extends Triangle {
         return (1 / 2) * this.b * h;
     }
 }
-
-const equilateralTriangle = new EquilateralTriangle(5);
-const isoscelesTriangle = new IsoscelesTriangle(5, 6);
-
-function output(obj: Triangle): string {
-    return `sides of triangle are ${obj.a}, ${obj.b}, ${obj.c} with perimeter ${obj.calcPerimeter()} and square ${obj.calcSquare()}`;
-}
-
-console.log(output(equilateralTriangle));
-console.log(output(isoscelesTriangle));
