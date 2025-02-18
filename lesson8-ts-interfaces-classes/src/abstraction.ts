@@ -2,7 +2,7 @@ export abstract class Triangle {
     public a = 0;
     public b = 0;
     public c = 0;
-   
+
     public constructor(a: number, b: number, c: number) {
         this.a = a;
         this.b = b;
@@ -32,7 +32,7 @@ export class IsoscelesTriangle extends Triangle {
     }
 
     public calcSquare(): number {
-        let h = Math.sqrt(this.a ** 2 - (this.b / 2) ** 2);
+        const h = Math.sqrt(this.a ** 2 - (this.b / 2) ** 2);
         return (1 / 2) * this.b * h;
     }
 }

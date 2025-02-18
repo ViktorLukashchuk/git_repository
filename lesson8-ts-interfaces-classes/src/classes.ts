@@ -1,15 +1,15 @@
 import { User } from './interfaces';
 
 export class ModifiedUser {
-    fullName: string;
-    contact: {
+    public fullName: string;
+    public contact: {
         email: string;
         phone: string;
     };
-    location: string;
-    companyName: string;
+    public location: string;
+    public companyName: string;
 
-    constructor(user: User) {
+    public constructor(user: User) {
         this.fullName = user.name;
         this.contact = {
             email: user.email,
@@ -19,16 +19,11 @@ export class ModifiedUser {
         this.companyName = user.company.name;
     }
 
-    updateName(newName: string) {
+    public updateName(newName: string): void {
         this.fullName = newName;
     }
 
-    updateEmail(newEmail: string) {
+    public updateEmail(newEmail: string): void {
         this.contact.email = newEmail;
     }
 }
-
-
-
-
-
