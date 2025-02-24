@@ -32,12 +32,6 @@ export class Fridge extends CoolingDevice implements ICoolingDimensions {
         }
     }
 
-    public coolWater(temperature: number): void {
-        while (this.thermalSensorIn > temperature) {
-            this.thermalSensorIn--;
-        }
-    }
-
     public getParameters(): string {
         return `${this.height}x${this.width}x${this.depth}`;
     }

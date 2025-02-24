@@ -30,11 +30,6 @@ export class Cooler extends CoolingDevice implements ICoolingDimensions {
         console.error('The Cooler cant freeze the water');
     }
 
-    public coolWater(temperature: number): void {
-        while (this.thermalSensorIn > temperature) {
-            this.thermalSensorIn--;
-        }
-    }
     public getParameters(): string {
         return `${this.height}x${this.width}x${this.depth}`;
     }

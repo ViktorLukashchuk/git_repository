@@ -5,11 +5,11 @@ export abstract class CoolingDevice {
         this.energySource = energySource;
     }
 
-    public freezeWater(): void {
-        while (this.thermalSensorIn > 0) {
+    public abstract freezeWater(): void;
+
+    public coolWater(temperature: number): void {
+        while (this.thermalSensorIn > temperature) {
             this.thermalSensorIn--;
         }
     }
-
-    public abstract coolWater(temperature: number): void;
 }
