@@ -1,16 +1,15 @@
-import { ICoolingDevice } from './icooling-device';
+import { CoolingDevice } from './cooling-device';
 import { ICoolingDimensions } from './icooling-dimensions';
 
-export class Fridge implements ICoolingDevice, ICoolingDimensions {
-    private thermalSensorIn: number;
+export class Fridge extends CoolingDevice implements ICoolingDimensions {
     public energySource: string;
-
-    // ICoolingDimensions
     public height: number;
     public width: number;
     public depth: number;
 
     public constructor(temperature: number, size: string) {
+        super('electricity');
+
         this.thermalSensorIn = temperature;
         this.energySource = 'electricity';
         const dimensions = size.split('x');
@@ -18,6 +17,7 @@ export class Fridge implements ICoolingDevice, ICoolingDimensions {
         this.width = Number(dimensions[1]);
         this.depth = Number(dimensions[2]);
     }
+
     public setTemperature(newTemp: number): void {
         this.thermalSensorIn = newTemp;
     }

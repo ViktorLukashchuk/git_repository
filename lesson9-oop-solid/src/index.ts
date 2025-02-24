@@ -1,6 +1,6 @@
 import { Fridge } from './fridge';
 import { Cooler } from './cooler';
-import { ICoolingDevice } from './icooling-device';
+import { CoolingDevice } from './cooling-device';
 import { ICoolingDimensions } from './icooling-dimensions';
 import { Freezer } from './freezer';
 
@@ -11,12 +11,8 @@ console.log('Current temperature in fridge is: ' + fridge.getTemperature);
 coolWater(fridge);
 console.log('Water in fridge is cooled to the next temperature ' + fridge.getTemperature);
 
-fridge.freezeWater();
-
-console.log('Current temperature in fridge after freezing is: ' + fridge.getTemperature);
-
-function coolWater(cool: ICoolingDevice): void {
-    cool.coolWater(5);
+function coolWater(device: CoolingDevice): void {
+    device.coolWater(5);
 }
 
 const cooler = new Cooler(3, '40x40x20');
@@ -34,6 +30,14 @@ console.log('--------------');
 function getDimensions(cool: ICoolingDimensions): void {
     console.log(cool.getParameters());
 }
+
+function freezeWater(device: CoolingDevice): void {
+    device.freezeWater();
+}
+
+freezeWater(cooler);
+freezeWater(fridge);
+console.log('Current temperature in fridge after freezing is: ' + fridge.getTemperature);
 
 getDimensions(fridge);
 getDimensions(cooler);
