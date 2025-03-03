@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "0f40e492-8b45-473a-860c-c9ddf4dc75c7",
+		"name": "HW 12 jokes API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7886120"
+	},
+	"item": [
+		{
+			"name": "getRandomJoke",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"random joke contains all required properties \", function () {\r",
+							"    function hasAllKeys(obj, requiredKeys) {\r",
+							"    return requiredKeys.every(key => obj.hasOwnProperty(key));\r",
+							"}\r",
+							"const obj = pm.response.json();\r",
+							"const requiredKeys = [\"type\", \"setup\", \"punchline\", \"id\"];\r",
+							"\r",
+							"    pm.expect(hasAllKeys(obj, requiredKeys)).to.be.equal(true);\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API}}jokes/random",
+					"host": [
+						"{{API}}jokes"
+					],
+					"path": [
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getJokeTypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request with exact values in it\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response[0]).to.be.equal(\"general\");\r",
+							"    pm.expect(response).contain(\"dad\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API}}types",
+					"host": [
+						"{{API}}types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tenRandomJokes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request with 10 records\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.length).to.be.equal(10)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API}}random_ten",
+					"host": [
+						"{{API}}random_ten"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "anyNumRandomJokes",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let randomNumber = Math.floor(Math.random() * 10) + 1;\r",
+							"pm.environment.set(\"random_value\", randomNumber);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response matches requested number\", function () {\r",
+							"    let randomNumber = pm.variables.get(\"random_value\");\r",
+							"    pm.expect(pm.response.json().length).to.be.equal(randomNumber)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "anyNumber",
+						"value": "5",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API}}jokes/random/{{random_value}}",
+					"host": [
+						"{{API}}jokes"
+					],
+					"path": [
+						"random",
+						"{{random_value}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jokesById",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let randomNumber = Math.floor(Math.random() * 10) + 1;\r",
+							"pm.environment.set(\"random_id\", randomNumber);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response matches requested number\", function () {\r",
+							"    let randomid = pm.variables.get(\"random_id\");\r",
+							"    let response = pm.response.json()\r",
+							"    pm.expect(response.id).to.be.equal(randomid)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API}}jokes/{{random_id}}",
+					"host": [
+						"{{API}}jokes"
+					],
+					"path": [
+						"{{random_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "randomTypeJoke",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let typeArr = [\r",
+							"    \"general\",\r",
+							"    \"knock-knock\",\r",
+							"    \"programming\",\r",
+							"    \"dad\"\r",
+							"]\r",
+							"let randomType = typeArr[Math.floor(Math.random() * typeArr.length)]\r",
+							"pm.environment.set(\"random_type\", randomType);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response matches requested type\", function () {\r",
+							"    let randomType = pm.variables.get(\"random_type\");\r",
+							"    let response = pm.response.json()\r",
+							"    pm.expect(response[0].type).to.be.equal(randomType)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API}}jokes/{{random_type}}/random",
+					"host": [
+						"{{API}}jokes"
+					],
+					"path": [
+						"{{random_type}}",
+						"random"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
