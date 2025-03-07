@@ -1,0 +1,228 @@
+{
+  "consumer": {
+    "name": "Pets-Web-v3"
+  },
+  "interactions": [
+    {
+      "description": "create a pet",
+      "providerStates": [
+        {
+          "name": "pet interaction"
+        }
+      ],
+      "request": {
+        "body": {
+          "category": {
+            "id": 45878545,
+            "name": "cat"
+          },
+          "id": 45878545,
+          "name": "RICK",
+          "photoUrls": [
+            "string"
+          ],
+          "status": "available",
+          "tags": [
+            {
+              "id": 45878545,
+              "name": "my RICK"
+            }
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/v2/pet"
+      },
+      "response": {
+        "body": {
+          "category": {
+            "id": 45878545,
+            "name": "cat"
+          },
+          "id": 45878545,
+          "name": "RICK",
+          "photoUrls": [
+            "string"
+          ],
+          "status": "available",
+          "tags": [
+            {
+              "id": 45878545,
+              "name": "my RICK"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json",
+          "content-type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "update a pet",
+      "request": {
+        "body": {
+          "category": {
+            "id": 45878545,
+            "name": "cat"
+          },
+          "id": 45878545,
+          "name": "RICK",
+          "photoUrls": [
+            "string"
+          ],
+          "status": "sold",
+          "tags": [
+            {
+              "id": 45878545,
+              "name": "my RICK"
+            }
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        "method": "PUT",
+        "path": "/v2/pet"
+      },
+      "response": {
+        "body": {
+          "category": {
+            "id": 45878545,
+            "name": "cat"
+          },
+          "id": 45878545,
+          "name": "RICK",
+          "photoUrls": [
+            "string"
+          ],
+          "status": "sold",
+          "tags": [
+            {
+              "id": 45878545,
+              "name": "my RICK"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json",
+          "content-type": "application/json"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "get a pet",
+      "request": {
+        "method": "GET",
+        "path": "/v2/pet/45878545"
+      },
+      "response": {
+        "body": {
+          "category": {
+            "id": 45878545,
+            "name": "cat"
+          },
+          "id": 45878545,
+          "name": "RICK",
+          "photoUrls": [
+            "string"
+          ],
+          "status": "sold",
+          "tags": [
+            {
+              "id": 45878545,
+              "name": "my RICK"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json",
+          "content-type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "delete a pet",
+      "request": {
+        "method": "DELETE",
+        "path": "/v2/pet/45878545"
+      },
+      "response": {
+        "body": {
+          "code": 200,
+          "message": "45878545",
+          "type": "unknown"
+        },
+        "headers": {
+          "Content-Type": "application/json",
+          "content-type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "14.0.0"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "Pets-API-v3"
+  }
+}

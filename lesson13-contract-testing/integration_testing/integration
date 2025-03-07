@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "cc1cfdac-f5d2-4f98-aaf9-401b25227018",
+		"name": "TheCatsAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7886120"
+	},
+	"item": [
+		{
+			"name": "/imeges/search",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/images/search",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"images",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/images/upload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);\r",
+							"    const imageId = pm.response.json().id;\r",
+							"    const sub_id = pm.response.json().sub_id;\r",
+							"\r",
+							"    pm.expect(imageId).to.be.not.empty\r",
+							"    pm.collectionVariables.set(\"theCatPicId\", imageId);\r",
+							"    pm.collectionVariables.set(\"subId\", sub_id);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Viktor/Desktop/2Jn-xmTIP.jpg"
+						},
+						{
+							"key": "sub_id",
+							"value": "1245",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/images/upload",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"images",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/images/:image_id/breeds",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"breed_id\": \"{{theCatBreed}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/images/{{theCatPicId}}/breeds",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"images",
+						"{{theCatPicId}}",
+						"breeds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/votes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"image_id\":\"{{theCatPicId}}\",\r\n    \"sub_id\":\"{{subId}}\",\r\n    \"value\": 7\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/votes",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"votes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/favorites",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"image_id\":\"{{theCatPicId}}\",\r\n    \"sub_id\":\"{{subId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/favourites",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"favourites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/images",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const resp = pm.response.json()\r",
+							"        .find(x => x.id === pm.collectionVariables.get(\"theCatPicId\"));\r",
+							"    \r",
+							"    console.log(resp);\r",
+							"\r",
+							"    const breeds = resp.breeds.map(x => x.id);\r",
+							"    console.log(breeds);\r",
+							"\r",
+							"    pm.expect(breeds).to.include(pm.collectionVariables.get(\"theCatBreed\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/images",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/favourites",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const resp = pm.response.json()\r",
+							"        .filter(x => x.sub_id === pm.collectionVariables.get(\"subId\"));\r",
+							"\r",
+							"    console.log(resp);\r",
+							"\r",
+							"    const result = resp.map(item => item.image_id);\r",
+							"    console.log(result);\r",
+							"    \r",
+							"    pm.expect(result).to.include(pm.collectionVariables.get(\"theCatPicId\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/favourites",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"favourites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/votes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Vote succesfully made with data cteated via image upload\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const resp = pm.response.json()\r",
+							"        .find(x => x.sub_id === pm.collectionVariables.get(\"subId\"));\r",
+							"    \r",
+							"    console.log(resp);\r",
+							"\r",
+							"    const imageId = resp.image_id;\r",
+							"    console.log(imageId);\r",
+							"\r",
+							"    pm.expect(imageId).to.include(pm.collectionVariables.get(\"theCatPicId\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/votes",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"votes"
+					],
+					"query": [
+						{
+							"key": "sub_id",
+							"value": "{{subId}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/breeds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    const breeds = pm.response.json().map(x => x.id);\r",
+							"    pm.expect(breeds).to.have.length.greaterThan(0);\r",
+							"\r",
+							"    const currentBreed = breeds[Math.floor(Math.random() * breeds.length)];\r",
+							"    console.log(breeds);\r",
+							"    console.log(currentBreed);\r",
+							"    pm.collectionVariables.set(\"theCatBreed\", currentBreed);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{theCatsApiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{theCatsApiBaseUrl}}/breeds",
+					"host": [
+						"{{theCatsApiBaseUrl}}"
+					],
+					"path": [
+						"breeds"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "theCatsApiBaseUrl",
+			"value": "https://api.thecatapi.com/v1",
+			"type": "string"
+		},
+		{
+			"key": "theCatsApiKey",
+			"value": "live_SGDcK0h9ExVPd7s0HKnQAlMdvGwna18Ye056mQR7gLBwajT2Mscfw1Qtr4w53REa",
+			"type": "string"
+		},
+		{
+			"key": "theCatPicId",
+			"value": "v58BV03lF",
+			"type": "string"
+		},
+		{
+			"key": "theCatBreed",
+			"value": "abys",
+			"type": "string"
+		},
+		{
+			"key": "subId",
+			"value": "45"
+		}
+	]
+}
