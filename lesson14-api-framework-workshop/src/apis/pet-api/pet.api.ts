@@ -1,3 +1,4 @@
+import { Pet } from 'src/pet-instance-class';
 import { IApiService } from '../../services/interfaces/i-api.service';
 import { PetDto } from 'src/dtos/pet-api/pet.dto';
 
@@ -15,24 +16,9 @@ export class PetsApi {
         return [response, responseJson];
     }
 
-    public async createPet(petId: number, petName: string): Promise<[Response, PetDto]> {
-        const body = {
-            id: petId,
-            category: {
-                id: petId,
-                name: petName
-            },
-            name: 'doggie',
-            photoUrls: ['string'],
-            tags: [
-                {
-                    id: petId,
-                    name: petName
-                }
-            ],
-            status: 'available'
-        };
-        const response = await this.apiService.post('pet', body);
+    public async createPet(body: PetDto): Promise<[Response, PetDto]> {
+        const petInstance = new Pet(body);
+        const response = await this.apiService.post('pet', petInstance);
         const responseJson = await response.json();
         return [response, responseJson];
     }
