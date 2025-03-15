@@ -17,8 +17,8 @@ export class PetsApi {
     }
 
     public async createPet(petId: number, petName: string): Promise<[Response, PetDto]> {
-        const petInstance = new Pet(petId, petName);
-        const response = await this.apiService.post('pet', petInstance);
+        const petBody = new Pet(petId, petName);
+        const response = await this.apiService.post('pet', petBody);
         const responseJson = await response.json();
         return [response, responseJson];
     }
