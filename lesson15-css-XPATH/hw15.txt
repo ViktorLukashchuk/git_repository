@@ -1,0 +1,47 @@
+CSS locators
+
+1) go to https://www.bricklink.com/v2/main.page
+
+2) choose the search field using the following: input.blp-adv-search__input[placeholder="Search..."] - 1 result
+
+3) set value "8275" in it
+
+4) find search button using the following: button.blp-btn.blp-adv-search__submit - 1 result
+
+5) click on it - user redirected to the page https://www.bricklink.com/v2/search.page?q=8275#T=A
+
+6) verify that this page contains this input: input#_idInKeyword.pspInputBox.pspInputLong with placeholder value equal to 8275
+
+7) choose Motorized buldozer using the following: a.pspItemNameLink[href*="catalogitem.page"]:contains("Motorized Bulldozer")
+
+8) user is redirected to sets overview page
+
+9) check value in h1#item-name-title - it should be Motorized buldozer
+
+10) add item to own collection by clicking on a#catItem-addToMPI-btn
+
+
+
+
+
+XPATH locators
+
+1) go to https://www.bricklink.com/v2/main.page
+
+2) choose the search field using the following: //input[@class='blp-adv-search__input' and @placeholder='Search...']] - 1 result
+
+3) set value "8275" in it
+
+4) find search button using the following: //button[@class='blp-btn blp-adv-search__submit'] - 1 result
+
+5) click on it - user redirected to the page https://www.bricklink.com/v2/search.page?q=8275#T=A
+
+6) verify that this page contains this input: //input[@id='_idInKeyword' and contains(@class, 'pspInputBox') and contains(@class, 'pspInputLong')] with placeholder value equal to 8275
+
+7) choose Motorized buldozer using the following: (//a[contains(@class, 'pspItemNameLink') and contains(@href, 'catalogitem.page') and contains(text(), 'Motorized Bulldozer')])[1]
+
+8) user is redirected to sets overview page
+
+9) check value in //h1[@id='item-name-title'] - it should be Motorized buldozer
+
+10) add item to own collection by clicking on //a[@id='catItem-addToMPI-btn']
