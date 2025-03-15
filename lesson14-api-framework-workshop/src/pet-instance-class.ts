@@ -4,16 +4,22 @@ export class Pet implements PetDto {
     public id: number;
     public category: Category;
     public name: string;
-    public photoUrls: string[];
+    public photoUrls: string[] = ['string'];
     public tags: Tag[];
-    public status: 'available' | 'pending' | 'sold';
+    public status: 'available' | 'pending' | 'sold' = 'available';
 
-    public constructor(dto: PetDto) {
-        this.id = dto.id;
-        this.category = dto.category;
-        this.name = dto.name;
-        this.photoUrls = dto.photoUrls;
-        this.tags = dto.tags;
-        this.status = dto.status;
+    public constructor(petId: number, petName: string) {
+        this.id = petId;
+        this.name = petName;
+        this.category = {
+            id: petId,
+            name: petName
+        };
+        this.tags = [
+            {
+                id: petId,
+                name: petName
+            }
+        ];
     }
 }
