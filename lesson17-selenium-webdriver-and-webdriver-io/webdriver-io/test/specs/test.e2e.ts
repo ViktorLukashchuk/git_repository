@@ -1,5 +1,3 @@
-import { $, browser } from '@wdio/globals';
-
 import { BricklinkPage } from '../../src/pages/bricklink.page';
 
 describe('Bricklink actions', () => {
