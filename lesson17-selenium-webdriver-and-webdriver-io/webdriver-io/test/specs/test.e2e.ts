@@ -19,11 +19,8 @@ describe('Bricklink actions', () => {
         await bricklinkPage.cookieButtonClick();
         await bricklinkPage.search(set.number);
         await bricklinkPage.verifySearchResult(set.number);
-
-        //ось ці 2 рядки так і не зміг побороти, шоб винести, ніяк не можу змусити клікатися
-        const bulldozerLink = await $('a=Motorized Bulldozer');
-        await browser.execute('arguments[0].click();', bulldozerLink);
-
+        await bricklinkPage.goToAllSets();
+        await bricklinkPage.goToBulldozerLink();
         await bricklinkPage.verifyItemName(set.name);
         await bricklinkPage.verifyItemDescription(set.description);
     });

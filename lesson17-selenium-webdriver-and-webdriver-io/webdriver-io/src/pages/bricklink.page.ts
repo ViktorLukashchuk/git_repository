@@ -27,6 +27,13 @@ export class BricklinkPage {
     private get itemDescriptionLocator(): ChainablePromiseElement {
         return $('#_idItemDescription');
     }
+    private get allSetsLinkLocator(): ChainablePromiseElement {
+        return $$('//input[@value="See All Sets"]')[1];
+    }
+
+    private get bulldozerLinkLocator(): ChainablePromiseElement {
+        return $$('a=Motorized Bulldozer')[0];
+    }
 
     public async goto(): Promise<void> {
         await browser.url('https://www.bricklink.com/v2/main.page');
@@ -50,6 +57,13 @@ export class BricklinkPage {
 
     public async verifyItemDescription(itemDescription: string): Promise<void> {
         await expect(this.itemDescriptionLocator).toHaveText(itemDescription);
+    }
+
+    public async goToAllSets(): Promise<void> {
+        await this.allSetsLinkLocator.click();
+    }
+    public async goToBulldozerLink(): Promise<void> {
+        await this.bulldozerLinkLocator.click();
     }
 
     public async headerElementsGet(): Promise<string[]> {
