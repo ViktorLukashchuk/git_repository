@@ -5,9 +5,20 @@ import { BricklinHeaderElement } from 'src/elements/bricklink-header';
 import { FeaturedItemsSection } from 'src/elements/featured-items-section';
 
 export class BricklinkPage {
+    public headerElement: BricklinHeaderElement;
+    public footerElement: BricklinkFooterElement;
+    public featuredItems: FeaturedItemsSection;
+
+    public constructor(private page: Page) {
+        this.headerElement = new BricklinHeaderElement(this.page.locator('.blp-header__content'));
+        this.footerElement = new BricklinkFooterElement(this.page.locator('.blp-footer'));
+        this.featuredItems = new FeaturedItemsSection(this.page.locator('#trending-items-container > section'));
+    }
+
     private get mainPageState(): Locator {
         return this.page.locator("(//h2[@class='bl-title']/a)[1]");
     }
+
     private get cookieButton(): Locator {
         return this.page.locator('button.btn.btn--cta.text--bold.cookie-notice__btn').nth(1);
     }
@@ -20,7 +31,9 @@ export class BricklinkPage {
         return this.page.locator('button[type="submit"]');
     }
 
-    private resultSelector = '#_idInKeyword';
+    private get resultSelector(): Locator {
+        return this.page.locator('#_idInKeyword');
+    }
 
     private get itemNameLocator(): Locator {
         return this.page.locator('#item-name-title');
@@ -29,29 +42,33 @@ export class BricklinkPage {
     private get itemDescriptionLocator(): Locator {
         return this.page.locator('#_idItemDescription');
     }
+
     private get allSetsLinkLocator(): Locator {
         return this.page.locator('//input[@value="See All Sets"]').nth(1);
     }
+
     private get bulldozerLinkLocator(): Locator {
         return this.page.locator('a').filter({ hasText: 'Motorized Bulldozer' }).nth(0);
     }
 
-    public constructor(private page: Page) {}
     public async goTo(): Promise<void> {
         await this.page.goto('https://www.bricklink.com/v2/main.page');
         await this.mainPageState.waitFor();
     }
-    public async cookieButtonClick(): Promise<void> {
+
+    public async clickCookieButton(): Promise<void> {
         await this.cookieButton.click();
     }
+
     public async search(setNumber: string): Promise<void> {
         await this.searchInput.fill(setNumber);
         await this.searchButton.click();
     }
 
     public async verifySearchResult(setNumber: string): Promise<void> {
-        await expect(this.page.locator(this.resultSelector)).toHaveValue(setNumber);
+        await expect(this.resultSelector).toHaveValue(setNumber);
     }
+
     public async verifyItemName(itemName: string): Promise<void> {
         await expect(this.itemNameLocator).toHaveText(itemName);
     }
@@ -59,13 +76,12 @@ export class BricklinkPage {
     public async verifyItemDescription(itemDescription: string): Promise<void> {
         await expect(this.itemDescriptionLocator).toHaveText(itemDescription);
     }
+
     public async goToAllSets(): Promise<void> {
         await this.allSetsLinkLocator.click();
     }
+
     public async goToBulldozerLink(): Promise<void> {
         await this.bulldozerLinkLocator.click();
     }
-    public headerElement = new BricklinHeaderElement(this.page.locator('.blp-header__content'));
-    public footerElement = new BricklinkFooterElement(this.page.locator('.blp-footer'));
-    public featuredItems = new FeaturedItemsSection(this.page.locator('#trending-items-container > section'));
 }

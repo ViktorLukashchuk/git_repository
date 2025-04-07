@@ -7,7 +7,7 @@ export class BricklinHeaderElement {
     }
     public constructor(private readonly baseLocator: Locator) {}
 
-    public async headerElementsGet(): Promise<string[]> {
+    public async getHeaderElements(): Promise<string[]> {
         const headerElements = await this.headerItemsSelector.all();
         const headerItems = [];
 
@@ -21,7 +21,7 @@ export class BricklinHeaderElement {
     }
 
     public async verifyHeaders(headerMenuItems: string[]): Promise<void> {
-        const headerItems = await this.headerElementsGet();
+        const headerItems = await this.getHeaderElements();
         const headerMenuItem = headerMenuItems[Math.floor(Math.random() * headerMenuItems.length)];
         await expect(headerItems).toContain(headerMenuItem);
     }

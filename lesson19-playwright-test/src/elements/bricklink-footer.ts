@@ -7,7 +7,7 @@ export class BricklinkFooterElement {
     }
     public constructor(private readonly baseLocator: Locator) {}
 
-    public async footerElementsGet(): Promise<string[]> {
+    public async getFooterElements(): Promise<string[]> {
         const footerElements = await this.footerItemsSelector.all();
         const footerItems = [];
 
@@ -21,7 +21,7 @@ export class BricklinkFooterElement {
     }
 
     public async verifyFooters(footerMenuItems: string[]): Promise<void> {
-        const footerItems = await this.footerElementsGet();
+        const footerItems = await this.getFooterElements();
         const footerMenuItem = footerMenuItems[Math.floor(Math.random() * footerMenuItems.length)];
         await expect(footerItems).toContain(footerMenuItem);
     }

@@ -9,7 +9,7 @@ test.describe('Bricklink actions', () => {
     test.beforeEach(async ({ page }) => {
         bricklinkPage = new BricklinkPage(page);
         await bricklinkPage.goTo();
-        await bricklinkPage.cookieButtonClick();
+        await bricklinkPage.clickCookieButton();
     });
 
     test('Main page header contains one of the menu from test data', async () => {
@@ -30,18 +30,16 @@ test.describe('Bricklink actions', () => {
         await bricklinkPage.footerElement.verifyFooters(testData.footerMenuItems);
     });
 
-    test('should toggle active class on button click using loop', async ({ page }) => {
-        const buttonSelectors = await bricklinkPage.featuredItems.getButtonSelectors();
-        const buttons = buttonSelectors.map((selector) => page.locator(selector));
-        await expect(buttons[0]).toHaveClass(/active/);
-        for (let i = 0; i < buttons.length; i++) {
-            await buttons[i].click();
-            await expect(buttons[i]).toHaveClass(/active/);
-            for (let j = 0; j < buttons.length; j++) {
-                if (i !== j) {
-                    await expect(buttons[j]).not.toHaveClass(/active/);
-                }
-            }
+    test('should toggle active class on button click using loop', async () => {
+        const buttons = await bricklinkPage.featuredItems.getAllButtons();
+
+        for (const button of buttons) {
+            await button.click();
+
+            const currentButtons = await bricklinkPage.featuredItems.getAllButtons();
+
+            expect(currentButtons.find((x) => x.name === button.name)?.isActive).toBe(true);
+            expect(currentButtons.filter((x) => x.name !== button.name).every((x) => !x.isActive)).toBe(true);
         }
     });
 });

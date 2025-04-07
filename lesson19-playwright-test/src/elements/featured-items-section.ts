@@ -1,21 +1,27 @@
 import { Locator } from '@playwright/test';
 
 export class FeaturedItemsSection {
-    private get buttonsSelector(): Locator {
+    private get buttons(): Locator {
         return this.baseLocator.locator('div.bl-btn-view-switch button');
     }
+
     public constructor(private readonly baseLocator: Locator) {}
 
-    public async getButtonSelectors(): Promise<string[]> {
-        const buttons = await this.buttonsSelector.all();
+    public async getAllButtons(): Promise<{ name: string; isActive: boolean; click: () => Promise<void> }[]> {
+        const buttonLocators = await this.buttons.all();
 
-        const buttonSelectors = await Promise.all(
-            buttons.map(async (button) => {
-                const value = await button.getAttribute('value');
-                return `button[value="${value}"]`;
+        return Promise.all(
+            buttonLocators.map(async (button) => {
+                const name = (await button.getAttribute('value')) || '';
+                const classList = (await button.getAttribute('class')) || '';
+                const isActive = classList.includes('active');
+
+                return {
+                    name,
+                    isActive,
+                    click: () => button.click()
+                };
             })
         );
-
-        return buttonSelectors;
     }
 }
