@@ -19,6 +19,7 @@ test.describe('Bricklink actions', () => {
     test('Main page footer contains one of the menu from test data', async () => {
         await bricklinkPage.footerElement.verifyFooters(testData.footerMenuItems);
     });
+
     test('should find 8275 set', async () => {
         await bricklinkPage.search(testData.setNumber);
         await bricklinkPage.verifySearchResult(testData.setNumber);
