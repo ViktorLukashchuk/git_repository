@@ -7,23 +7,23 @@ When('user clicks on cookie button', async function (this: RobotDreamsWorld) {
     await this.bricklinkPage.clickCookieButton();
 });
 
-When('user input 8275 search combination in search bar', async function (this: RobotDreamsWorld) {
-    await this.bricklinkPage.search(testData.setNumber);
+When('user input {string} search combination in search bar', async function (this: RobotDreamsWorld, setId: string) {
+    await this.bricklinkPage.search(setId);
 });
 
-Then('user is redirected to results page for 8275 set', async function (this: RobotDreamsWorld) {
-    await this.bricklinkPage.verifySearchResult(testData.setNumber);
+Then('user is redirected to results page for {string} set', async function (this: RobotDreamsWorld, setId: string) {
+    await this.bricklinkPage.verifySearchResult(setId);
 });
 
 When('user go to All Sets tab', async function (this: RobotDreamsWorld) {
     await this.bricklinkPage.goToAllSets();
 });
 
-When('user press on 8275 set link', async function (this: RobotDreamsWorld) {
-    await this.bricklinkPage.goToBulldozerLink();
+When('user press on set {string} link', async function (this: RobotDreamsWorld, setId: string) {
+    await this.bricklinkPage.goToSetLink(setId);
 });
 
-Then('user redirected to set 8275 page', async function (this: RobotDreamsWorld) {
+Then('user redirected to set page', async function (this: RobotDreamsWorld) {
     await this.bricklinkPage.verifyItemName(testData.setName);
     await this.bricklinkPage.verifyItemDescription(testData.setDescription);
 });

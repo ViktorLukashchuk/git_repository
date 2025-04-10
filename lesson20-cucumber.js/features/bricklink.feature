@@ -5,11 +5,11 @@ Feature: Jira Cucumber.js Autotests
 
     Scenario: User is able to find 8275 set
         When user clicks on cookie button
-        When user input 8275 search combination in search bar
-        Then user is redirected to results page for 8275 set
+        When user input "8275" search combination in search bar
+        Then user is redirected to results page for "8275" set
         When user go to All Sets tab
-        When user press on 8275 set link
-        Then user redirected to set 8275 page
+        When user press on set "8275" link
+        Then user redirected to set page
             
     Scenario: User is able to verify page header
         When user clicks on cookie button

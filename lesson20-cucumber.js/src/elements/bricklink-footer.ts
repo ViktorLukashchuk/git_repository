@@ -1,28 +1,20 @@
 import { Locator } from '@playwright/test';
-import { expect } from '@playwright/test';
+import { BaseElement } from './base-component.ts';
 
-export class BricklinkFooterElement {
+export class BricklinkFooterElement extends BaseElement {
     private get footerItemsSelector(): Locator {
         return this.baseLocator.locator('.blp-footer-column--bricklink.blp-footer-column--bricklink .blp-footer-column__item');
     }
-    public constructor(private readonly baseLocator: Locator) {}
 
-    public async getFooterElements(): Promise<string[]> {
-        const footerElements = await this.footerItemsSelector.all();
-        const footerItems = [];
+    public constructor(baseLocator: Locator) {
+        super(baseLocator);
+    }
 
-        for (const element of footerElements) {
-            const text = await element.textContent();
-            if (text) {
-                footerItems.push(text.trim());
-            }
-        }
-        return footerItems;
+    public async getFooterItems(): Promise<string[]> {
+        return await this.getTextContentList(this.footerItemsSelector);
     }
 
     public async verifyFooters(footerMenuItems: string[]): Promise<void> {
-        const footerItems = await this.getFooterElements();
-        const footerMenuItem = footerMenuItems[Math.floor(Math.random() * footerMenuItems.length)];
-        await expect(footerItems).toContain(footerMenuItem);
+        await this.verifyContentList(this.footerItemsSelector, footerMenuItems);
     }
 }

@@ -1,28 +1,20 @@
 import { Locator } from '@playwright/test';
-import { expect } from '@playwright/test';
+import { BaseElement } from './base-component.ts';
 
-export class BricklinHeaderElement {
+export class BricklinHeaderElement extends BaseElement {
     private get headerItemsSelector(): Locator {
         return this.baseLocator.locator('ul li.blp-nav__main-item button span');
     }
-    public constructor(private readonly baseLocator: Locator) {}
 
-    public async getHeaderElements(): Promise<string[]> {
-        const headerElements = await this.headerItemsSelector.all();
-        const headerItems = [];
+    public constructor(baseLocator: Locator) {
+        super(baseLocator);
+    }
 
-        for (const element of headerElements) {
-            const text = await element.textContent();
-            if (text) {
-                headerItems.push(text.trim());
-            }
-        }
-        return headerItems;
+    public async getHeaderItems(): Promise<string[]> {
+        return await this.getTextContentList(this.headerItemsSelector);
     }
 
     public async verifyHeaders(headerMenuItems: string[]): Promise<void> {
-        const headerItems = await this.getHeaderElements();
-        const headerMenuItem = headerMenuItems[Math.floor(Math.random() * headerMenuItems.length)];
-        await expect(headerItems).toContain(headerMenuItem);
+        await this.verifyContentList(this.headerItemsSelector, headerMenuItems);
     }
 }

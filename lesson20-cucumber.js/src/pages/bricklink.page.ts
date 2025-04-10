@@ -9,12 +9,6 @@ export class BricklinkPage {
     public footerElement: BricklinkFooterElement;
     public featuredItems: FeaturedItemsSection;
 
-    public constructor(private page: Page) {
-        this.headerElement = new BricklinHeaderElement(this.page.locator('.blp-header__content'));
-        this.footerElement = new BricklinkFooterElement(this.page.locator('.blp-footer'));
-        this.featuredItems = new FeaturedItemsSection(this.page.locator('#trending-items-container > section'));
-    }
-
     private get mainPageState(): Locator {
         return this.page.locator("(//h2[@class='bl-title']/a)[1]");
     }
@@ -47,8 +41,10 @@ export class BricklinkPage {
         return this.page.locator('//input[@value="See All Sets"]').nth(1);
     }
 
-    private get bulldozerLinkLocator(): Locator {
-        return this.page.locator('a').filter({ hasText: 'Motorized Bulldozer' }).nth(0);
+    public constructor(private page: Page) {
+        this.headerElement = new BricklinHeaderElement(this.page.locator('.blp-header__content'));
+        this.footerElement = new BricklinkFooterElement(this.page.locator('.blp-footer'));
+        this.featuredItems = new FeaturedItemsSection(this.page.locator('#trending-items-container > section'));
     }
 
     public async goTo(): Promise<void> {
@@ -81,7 +77,13 @@ export class BricklinkPage {
         await this.allSetsLinkLocator.click();
     }
 
-    public async goToBulldozerLink(): Promise<void> {
-        await this.bulldozerLinkLocator.click();
+    public async goToSetLink(setNumber: string): Promise<void> {
+        const locator = this.page.locator(`//span[contains(@class, "pspItemCateAndNo") and contains(text(), "${setNumber}")]`).first();
+        await locator.click();
+    }
+
+    public async verifyItemSet(setNumber: string): Promise<void> {
+        const locator = this.page.locator(`//span[contains(text(), "${setNumber}")]`);
+        await expect(locator).toHaveText(setNumber);
     }
 }
