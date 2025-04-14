@@ -26,12 +26,6 @@ buildIdentifier: '#${BUILD_NUMBER}' # Supports strings along with either/both ${
 # =======================================
 # Platforms object contains all the browser / device combinations you want to test on.
 # Entire list available here -> (https://www.browserstack.com/list-of-browsers-and-platforms/automate)
-platforms:
-    - os: OS X
-      osVersion: Big Sur
-      browserName: Chrome
-      browserVersion: latest
-
 # =======================
 # Parallels per Platform
 # =======================
