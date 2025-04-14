@@ -6,5 +6,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 browser-context.json
+/allure-report
 local.log
 /log
+/allure-results
