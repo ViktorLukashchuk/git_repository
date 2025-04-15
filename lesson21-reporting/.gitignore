@@ -10,3 +10,4 @@ browser-context.json
 local.log
 /log
 /allure-results
+/mochawesome-report
