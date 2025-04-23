@@ -1,0 +1,69 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - testnet
+    container_name: expense-app
+
+  tests:
+    image: mcr.microsoft.com/playwright:v1.43.1-jammy
+    depends_on:
+      - app
+    working_dir: /tests
+    volumes:
+      - ./tests:/tests
+    command: >
+      sh -c "npm ci && npx playwright test"
+    networks:
+      - testnet
+    container_name: playwright-tests
+
+  postgresql:
+    image: postgres:13-alpine
+    container_name: reportportal-postgresql
+    environment:
+      - POSTGRES_USER=reportportal
+      - POSTGRES_PASSWORD=reportportal
+      - POSTGRES_DB=reportportal
+    volumes:
+      - reportportal_postgresql:/var/lib/postgresql/data
+    networks:
+      - reportportal-net
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: reportportal-elasticsearch
+    environment:
+      - discovery.type=single-node
+    networks:
+      - reportportal-net
+
+  reportportal:
+    image: reportportal/reportportal:5.5.0
+    container_name: reportportal
+    environment:
+      - RP_DATABASE_URL=jdbc:postgresql://postgresql:5432/reportportal
+      - RP_DATABASE_USERNAME=reportportal
+      - RP_DATABASE_PASSWORD=reportportal
+      - RP_ELASTICSEARCH_URL=http://elasticsearch:9200
+      - RP_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql
+      - elasticsearch
+    networks:
+      - reportportal-net
+
+volumes:
+  reportportal_postgresql:
+
+networks:
+  testnet:
+    driver: bridge
+  reportportal-net:
+    driver: bridge
